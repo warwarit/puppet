@@ -1,5 +1,5 @@
 class htop {
-package {'htop':
-ensure => installed,
-}
+	package {'htop':
+		ensure => 'latest',
+	}
 }

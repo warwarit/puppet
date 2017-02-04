@@ -21,5 +21,18 @@ class z_agent {
 		require	=> exec['apt-get update'],
 		command => 'apt-get install -y zabbix-agent',
 		path    => '/bin/:/sbin/:/usr/bin/:/usr/sbin/',
-	}	
+	}
+	file {'/etc/zabbix/zabbix_agentd.conf':
+		require	=> exec['apt-get install -y zabbix-agent'],
+		ensure  => file,
+		source  => "puppet:///modules/z_agent/zabbix_agentd.conf",
+		owner	=> 'root',
+		group	=> 'root',
+		mode	=> '0644',
+	}
+	service { 'zabbix-agent':
+		require	=> file['/etc/zabbix/zabbix_agentd.conf'],
+		ensure => 'running',
+	}
+	
 }
